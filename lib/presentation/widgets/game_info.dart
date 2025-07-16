@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:minesweeper_game/core/constant/app_string_constant.dart';
+import '../../core/constant/app_icons.dart';
+import '../../core/constant/app_text_styles.dart';
 import '../../domain/entities/game_board.dart';
 
 Widget buildGameInfo(ValueNotifier<GameBoard?> boardNotifier) {
@@ -14,8 +16,8 @@ Widget buildGameInfo(ValueNotifier<GameBoard?> boardNotifier) {
         children: [
           if (board.isGameOver)
             Text(
-              board.status == GameStatus.won ? 'You Won! 🎉' : 'Game Over! 💣',
-              style: Theme.of(context).textTheme.headlineSmall,
+              board.status == GameStatus.won ? gameWinMessage : gameOverMessage,
+              style: AppTextStyles.gameResultStyle,
               textAlign: TextAlign.center,
             ),
           const SizedBox(height: 8),
@@ -24,17 +26,17 @@ Widget buildGameInfo(ValueNotifier<GameBoard?> boardNotifier) {
             children: [
               Expanded(
                 child: _buildInfoCard(
-                  'Mines',
+                  minesText,
                   '${board.mineCount - board.flagCount}',
-                  Icons.flag,
+                  AppIcons.flag,
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _buildInfoCard(
-                  'Time',
+                  timeText,
                   '${board.elapsedSeconds}',
-                  Icons.timer,
+                  AppIcons.timer,
                 ),
               ),
             ],
@@ -45,7 +47,6 @@ Widget buildGameInfo(ValueNotifier<GameBoard?> boardNotifier) {
   );
 }
 
-
 Widget _buildInfoCard(String title, String value, IconData icon) {
   return Card(
     child: Padding(
@@ -53,20 +54,14 @@ Widget _buildInfoCard(String title, String value, IconData icon) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(title, style: const TextStyle(fontSize: 16)),
+          Text(title, style: AppTextStyles.gameInfoCardTitleStyle),
           const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 20),
               const SizedBox(width: 4),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Text(value, style: AppTextStyles.gameInfoCardSubTitleStyle),
             ],
           ),
         ],

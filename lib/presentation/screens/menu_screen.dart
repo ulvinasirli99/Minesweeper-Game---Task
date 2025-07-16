@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/constant/app_colors.dart';
 import '../../core/constant/app_text_styles.dart';
-import '../../core/constant/app_constant.dart';
-import '../../core/constant/menu_constant.dart';
+import '../../core/constant/app_string_constant.dart';
+import '../../core/constant/app_dimensions.dart';
 import '../../core/enums/game_state.dart';
 import '../../core/utils/game_config_generator.dart';
 import '../widgets/build_difficulty_button.dart';
@@ -24,27 +24,27 @@ class MenuScreen extends StatelessWidget {
 
   static const _difficultyLevels = [
     DifficultyLevel(
-      title: 'Easy',
-      description: '8x8 grid with 10 mines',
+      title: easyText,
+      description: easyLevelDescription,
       gameState: GameState.easy,
     ),
     DifficultyLevel(
-      title: 'Medium',
-      description: '12x12 grid with 30 mines',
+      title: mediumText,
+      description: mediumLevelDescription,
       gameState: GameState.medium,
     ),
     DifficultyLevel(
-      title: 'Hard',
-      description: '16x16 grid with 60 mines',
+      title: hardText,
+      description: hardLevelDescription,
       gameState: GameState.hard,
     ),
   ];
 
   double _getSpacing(bool isLandscape) =>
-      isLandscape ? menuLevelSpace8 : menuLevelSpace16;
+      isLandscape ? insets8 : insets16;
 
   double _getTitleSpacing(bool isLandscape) =>
-      isLandscape ? menuLevelSpace16 : menuLevelSpace32;
+      isLandscape ? insets16 : insets32;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class MenuScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Select Difficulty',
+                        selectDifficultyText,
                         style: AppTextStyles.menuTitle,
                       ),
                       SizedBox(height: _getTitleSpacing(isLandscape)),

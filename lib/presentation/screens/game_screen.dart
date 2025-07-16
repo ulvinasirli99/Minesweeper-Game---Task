@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../app/routes.dart';
 import '../../core/constant/app_colors.dart';
-import '../../core/constant/app_constant.dart';
+import '../../core/constant/app_icons.dart';
+import '../../core/constant/app_string_constant.dart';
 import '../controllers/game_controller.dart';
 import '../widgets/build_layout.dart';
 
@@ -33,7 +34,7 @@ class _GameScreenState extends State<GameScreen> {
           centerTitle: true,
           backgroundColor: AppColors.getAppBarColor(context),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: Icon(AppIcons.back),
             onPressed: () {
               widget.controller.boardNotifier.value = null;
               AppRoute.pop(context);
@@ -45,7 +46,7 @@ class _GameScreenState extends State<GameScreen> {
               builder: (context, board, child) {
                 if (board?.isGameOver ?? false) {
                   return IconButton(
-                    icon: const Icon(Icons.refresh),
+                    icon: Icon(AppIcons.refresh),
                     onPressed: () {
                       widget.controller.startNewGame(
                         board!.width,
@@ -53,7 +54,7 @@ class _GameScreenState extends State<GameScreen> {
                         board.mineCount,
                       );
                     },
-                    tooltip: 'Restart Game',
+                    tooltip: restartGameTooltip,
                   );
                 }
                 return const SizedBox();

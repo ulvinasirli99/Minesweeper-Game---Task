@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/constant/app_colors.dart';
+import '../../core/constant/app_icons.dart';
 import '../../core/constant/app_text_styles.dart';
 import '../../domain/entities/tile.dart';
 import 'bomb_icon.dart';
@@ -45,7 +46,7 @@ class TileWidget extends StatelessWidget {
 
   Widget _getTileContent() {
     if (!tile.isRevealed && tile.isFlagged) {
-      return const Icon(Icons.flag, color: AppColors.tileFlag);
+      return Icon(AppIcons.flag, color: AppColors.tileFlag);
     }
     if (!tile.isRevealed) {
       return const SizedBox();

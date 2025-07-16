@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:minesweeper_game/core/constant/app_icons.dart';
 import 'package:minesweeper_game/domain/entities/game_board.dart';
 import 'package:minesweeper_game/domain/entities/tile.dart';
+import 'package:minesweeper_game/presentation/widgets/bomb_icon.dart';
 import 'package:minesweeper_game/presentation/widgets/game_board_widget.dart';
 
 void main() {
@@ -142,10 +144,10 @@ void main() {
       ),
     );
 
-    expect(find.byIcon(Icons.flag), findsOneWidget);
+    expect(find.byIcon(AppIcons.flag), findsOneWidget);
   });
 
-  testWidgets('GameBoardWidget displays mine when revealed',
+  testWidgets('GameBoardWidget displays bomb when mine is revealed',
       (WidgetTester tester) async {
     final revealedBoard = GameBoard(
       tiles: List.generate(
@@ -182,6 +184,6 @@ void main() {
       ),
     );
 
-    expect(find.byIcon(Icons.close), findsOneWidget);
+    expect(find.byType(BombIcon), findsOneWidget);
   });
 } 

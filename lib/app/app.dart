@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../core/constant/app_constant.dart';
+import '../core/constant/app_string_constant.dart';
 import '../presentation/screens/menu_screen.dart';
 
 class MyApp extends StatelessWidget {

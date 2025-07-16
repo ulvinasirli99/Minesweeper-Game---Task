@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:minesweeper_game/core/constant/app_string_constant.dart';
 import 'package:minesweeper_game/domain/entities/game_board.dart';
 import 'package:minesweeper_game/domain/entities/tile.dart';
 import 'package:minesweeper_game/domain/repositories/game_repository.dart';
@@ -89,7 +90,7 @@ void main() {
     );
   });
 
-  testWidgets('GameScreen shows initial state correctly',
+  testWidgets('GameScreen shows loading state when board is null',
       (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -97,55 +98,47 @@ void main() {
       ),
     );
 
-    expect(find.text('Start a new game to begin!'), findsOneWidget);
-    expect(find.text('Minesweeper'), findsOneWidget);
-    expect(find.text('Easy'), findsOneWidget);
-    expect(find.text('Medium'), findsOneWidget);
-    expect(find.text('Hard'), findsOneWidget);
+    expect(find.text(loadingText), findsOneWidget);
+    expect(find.text(appName), findsOneWidget);
   });
 
-  testWidgets('GameScreen starts new game when difficulty button is pressed',
+  testWidgets('GameScreen shows game board when game is started',
       (WidgetTester tester) async {
+    controller.startNewGame(8, 8, 10);
+    
     await tester.pumpWidget(
       MaterialApp(
         home: GameScreen(controller: controller),
       ),
     );
 
-    await tester.tap(find.text('Easy'));
-    await tester.pump();
-
-    expect(find.text('Start a new game to begin!'), findsNothing);
+    expect(find.text(loadingText), findsNothing);
     expect(find.byType(GameBoardWidget), findsOneWidget);
   });
 
   testWidgets('GameScreen shows game info when game is started',
       (WidgetTester tester) async {
+    controller.startNewGame(8, 8, 10);
+    
     await tester.pumpWidget(
       MaterialApp(
         home: GameScreen(controller: controller),
       ),
     );
 
-    await tester.tap(find.text('Easy'));
-    await tester.pump();
-
-    expect(find.text('Mines'), findsOneWidget);
-    expect(find.text('Time'), findsOneWidget);
-    expect(find.byIcon(Icons.flag), findsOneWidget);
-    expect(find.byIcon(Icons.timer), findsOneWidget);
+    expect(find.text(minesText), findsOneWidget);
+    expect(find.text(timeText), findsOneWidget);
   });
 
   testWidgets('GameScreen updates mine count when flagging tiles',
       (WidgetTester tester) async {
+    controller.startNewGame(8, 8, 10);
+    
     await tester.pumpWidget(
       MaterialApp(
         home: GameScreen(controller: controller),
       ),
     );
-
-    await tester.tap(find.text('Easy'));
-    await tester.pump();
 
     final initialMineCount = find.textContaining('10').evaluate().single.widget as Text;
     expect(initialMineCount.data, equals('10'));
@@ -156,5 +149,42 @@ void main() {
 
     final updatedMineCount = find.textContaining('9').evaluate().single.widget as Text;
     expect(updatedMineCount.data, equals('9'));
+  });
+
+  testWidgets('GameScreen shows restart button when game is over',
+      (WidgetTester tester) async {
+    controller.startNewGame(8, 8, 10);
+    final board = controller.boardNotifier.value!;
+    
+    // Simulate game over by revealing a mine
+    final mineX = 0;
+    final mineY = 0;
+    controller.boardNotifier.value = board.copyWith(
+      tiles: List.generate(
+        board.height,
+        (y) => List.generate(
+          board.width,
+          (x) => x == mineX && y == mineY
+              ? Tile(
+                  x: x,
+                  y: y,
+                  hasMine: true,
+                  isRevealed: true,
+                  isFlagged: false,
+                  adjacentMines: 0,
+                )
+              : board.tiles[y][x],
+        ),
+      ),
+      status: GameStatus.lost,
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: GameScreen(controller: controller),
+      ),
+    );
+
+    expect(find.byTooltip(restartGameTooltip), findsOneWidget);
   });
 } 

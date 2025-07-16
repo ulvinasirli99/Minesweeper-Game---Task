@@ -13,4 +13,17 @@ class AppTextStyles {
     color: AppColors.getNumberColor(number),
     fontWeight: FontWeight.bold,
   );
+
+  // Game Info
+  static TextStyle gameResultStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle gameInfoCardTitleStyle = const TextStyle(fontSize: 16);
+
+  static TextStyle gameInfoCardSubTitleStyle = const TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
 }
