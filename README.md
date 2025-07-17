@@ -124,7 +124,6 @@ The game features a fully responsive design that adapts to different screen size
 ### Implementation Details
 - Uses `LayoutBuilder` for dynamic sizing
 - `SafeArea` ensures visibility with notches and system UI
-- Responsive button sizes (40% width in landscape, 80% in portrait)
 - Maintains game board's square aspect ratio
 - Prevents overflow issues during rotation
 - No scrolling required during active gameplay
@@ -133,39 +132,20 @@ The game features a fully responsive design that adapts to different screen size
 
 ```
 lib/
+├── app/
 ├── core/
-│   └── error/
+│   ├── constant/
+│   ├── enums/
+│   ├── error/
+│   └── utils/
+├── data/
+│   └── repositories/
 ├── domain/
 │   ├── entities/
 │   ├── repositories/
 │   └── usecases/
-├── data/
-│   └── repositories/
 └── presentation/
     ├── controllers/
     ├── screens/
     └── widgets/
 ```
-
-## Performance Considerations
-
-- Efficient board state updates
-- Minimal rebuilds using `ValueNotifier`
-- Optimized flood fill algorithm for revealing tiles
-- Memory-efficient game state management
-
-## Future Improvements
-
-Potential enhancements that could be added:
-- Custom grid size configuration
-- High score tracking
-- Different game modes
-- Sound effects and haptic feedback
-- Theme customization
-
-## Development Decisions
-
-1. **Clean Architecture**: Chosen for maintainability and testability
-2. **ValueNotifier**: Used for efficient state management without external dependencies
-3. **Widget-Based UI**: Pure Flutter implementation without external UI libraries
-4. **Comprehensive Testing**: Ensures reliability and maintainability
